@@ -24,6 +24,12 @@ WEB3FORMS_ACCESS_KEY=your-key-here
 
 Submissions will then email your Gmail inbox on localhost and in production.
 
+## Production (Vercel)
+
+1. Add the same `WEB3FORMS_ACCESS_KEY` in **Vercel → Project → Settings → Environment Variables** (Production).
+2. Redeploy after saving the variable.
+3. Leads are **not** written to `data/leads.json` on Vercel (serverless disk is read-only); email via Web3Forms/SMTP is the store.
+
 ## Gmail SMTP (alternative)
 
 ```env

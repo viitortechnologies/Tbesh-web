@@ -9,14 +9,27 @@ export type StoredLead = LeadInput & {
 
 const leadsFile = path.join(process.cwd(), "data", "leads.json");
 
-export async function persistLead(lead: LeadInput): Promise<StoredLead> {
-  const stored: StoredLead = {
+/** Local dev only — Vercel/serverless filesystem is read-only. */
+export function shouldPersistLeadsToDisk(): boolean {
+  return process.env.NODE_ENV === "development";
+}
+
+function createStoredLead(lead: LeadInput): StoredLead {
+  return {
     ...lead,
     company: lead.company ?? "",
     message: lead.message ?? "",
     id: crypto.randomUUID(),
     createdAt: new Date().toISOString(),
   };
+}
+
+export async function persistLead(lead: LeadInput): Promise<StoredLead> {
+  const stored = createStoredLead(lead);
+
+  if (!shouldPersistLeadsToDisk()) {
+    return stored;
+  }
 
   await fs.mkdir(path.dirname(leadsFile), { recursive: true });
 

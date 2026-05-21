@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { sendLeadConfirmation, sendLeadNotification } from "@/lib/email";
-import { persistLead } from "@/lib/leads-store";
+import { persistLead, shouldPersistLeadsToDisk } from "@/lib/leads-store";
 import { leadSchema } from "@/lib/validation";
 
 export async function POST(request: Request) {
@@ -16,6 +16,7 @@ export async function POST(request: Request) {
     }
 
     const lead = await persistLead(parsed.data);
+    const savedToFile = shouldPersistLeadsToDisk();
     const result = await sendLeadNotification(parsed.data);
 
     try {
@@ -29,7 +30,7 @@ export async function POST(request: Request) {
     return NextResponse.json({
       ok: true,
       id: lead.id,
-      savedTo: "data/leads.json",
+      savedTo: savedToFile ? "data/leads.json" : undefined,
       emailSent: result.sent,
       emailMethod: "method" in result ? result.method : undefined,
       previewUrl: "previewUrl" in result ? result.previewUrl : undefined,
@@ -38,7 +39,9 @@ export async function POST(request: Request) {
           ? result.devNote
           : result.sent
             ? "Your enquiry was emailed to our team."
-            : `Saved locally. Email us at jagtialstories@gmail.com or configure WEB3FORMS_ACCESS_KEY in .env.local.`,
+            : isDev
+              ? `Saved locally. Email us at jagtialstories@gmail.com or add WEB3FORMS_ACCESS_KEY to .env.local.`
+              : `We received your enquiry but email delivery is not configured. Please email jagtialstories@gmail.com, or set WEB3FORMS_ACCESS_KEY in Vercel Environment Variables.`,
       isDev,
     });
   } catch (err) {

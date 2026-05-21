@@ -161,10 +161,17 @@ export async function sendLeadNotification(lead: LeadInput) {
   }
 
   console.info("[leads]", payloadText(lead));
+  const configHint =
+    process.env.NODE_ENV === "development"
+      ? `Add WEB3FORMS_ACCESS_KEY or SMTP to .env.local (see LOCALHOST-EMAIL.md).`
+      : `Set WEB3FORMS_ACCESS_KEY (or SMTP) in Vercel Environment Variables and redeploy.`;
   return {
     sent: false,
     reason: "email_delivery_failed" as const,
-    devNote: `Lead saved in data/leads.json. Email ${NOTIFY_EMAIL} needs WEB3FORMS_ACCESS_KEY or SMTP in .env.local.`,
+    devNote:
+      process.env.NODE_ENV === "development"
+        ? `Lead saved in data/leads.json. Email ${NOTIFY_EMAIL} — ${configHint}`
+        : `Email ${NOTIFY_EMAIL} — ${configHint}`,
   };
 }
 

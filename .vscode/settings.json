@@ -1,0 +1,12 @@
+{
+  "terminal.integrated.env.osx": {
+    "NVM_DIR": "${env:HOME}/.nvm"
+  },
+  "terminal.integrated.profiles.osx": {
+    "zsh (nvm)": {
+      "path": "/bin/zsh",
+      "args": ["-l"]
+    }
+  },
+  "terminal.integrated.defaultProfile.osx": "zsh (nvm)"
+}

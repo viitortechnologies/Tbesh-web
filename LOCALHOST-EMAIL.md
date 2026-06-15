@@ -9,10 +9,10 @@ Deploy is **not required** to test the form. Leads are always saved to `data/lea
 3. After submit, the success screen shows **“Open preview in browser”** — that is your test email
 4. The terminal also prints the preview URL
 
-## Real email to jagtialstories@gmail.com (recommended)
+## Real email to tbesh@gmail.com (recommended)
 
 1. Go to [https://web3forms.com](https://web3forms.com)
-2. Sign up with **jagtialstories@gmail.com**
+2. Sign up with **tbesh@gmail.com**
 3. Copy your access key
 4. Add to `.env.local`:
 
@@ -35,7 +35,7 @@ Submissions will then email your Gmail inbox on localhost and in production.
 ```env
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
-SMTP_USER=jagtialstories@gmail.com
+SMTP_USER=tbesh@gmail.com
 SMTP_PASS=your-gmail-app-password
 ```
 

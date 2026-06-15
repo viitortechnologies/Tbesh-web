@@ -40,8 +40,8 @@ export async function POST(request: Request) {
           : result.sent
             ? "Your enquiry was emailed to our team."
             : isDev
-              ? `Saved locally. Email us at jagtialstories@gmail.com or add WEB3FORMS_ACCESS_KEY to .env.local.`
-              : `We received your enquiry but email delivery is not configured. Please email jagtialstories@gmail.com, or set WEB3FORMS_ACCESS_KEY in Vercel Environment Variables.`,
+              ? `Saved locally. Email us at tbeshgmail.com or add WEB3FORMS_ACCESS_KEY to .env.local.`
+              : `We received your enquiry but email delivery is not configured. Please email tbesh@gmail.com, or set WEB3FORMS_ACCESS_KEY in Vercel Environment Variables.`,
       isDev,
     });
   } catch (err) {

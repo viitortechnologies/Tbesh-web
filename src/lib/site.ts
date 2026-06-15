@@ -1,6 +1,6 @@
 import { placeholders } from "./placeholders";
 
-export const DEFAULT_LEAD_EMAIL = "jagtialstories@gmail.com";
+export const DEFAULT_LEAD_EMAIL = "tbesh@gmail.com";
 
 export const site = {
   name: "Tbesh",

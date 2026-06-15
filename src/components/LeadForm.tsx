@@ -33,12 +33,14 @@ export function LeadForm({ variant, defaultTrainingTrack = "azure-linux-training
     id?: string;
     isDev?: boolean;
   } | null>(null);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setState("submitting");
     setFieldErrors({});
     setSuccessInfo(null);
+    setSubmitError(null);
 
     const payload: LeadInput = {
       ...form,
@@ -50,24 +52,52 @@ export function LeadForm({ variant, defaultTrainingTrack = "azure-linux-training
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
+        cache: "no-store",
       });
-      const data = await res.json();
+
+      let data: Record<string, unknown> = {};
+      const contentType = res.headers.get("content-type") ?? "";
+      if (contentType.includes("application/json")) {
+        data = (await res.json()) as Record<string, unknown>;
+      } else {
+        const text = await res.text();
+        console.error("[LeadForm] Non-JSON response", res.status, text.slice(0, 200));
+        setSubmitError(
+          res.status === 404
+            ? "Form API not found on this domain (404). Confirm the site is deployed on Vercel with the latest code."
+            : `Server returned ${res.status}. The site may not be running the Next.js app on this URL.`,
+        );
+        setState("error");
+        return;
+      }
 
       if (!res.ok) {
-        if (data.fieldErrors) setFieldErrors(data.fieldErrors);
+        if (data.fieldErrors && typeof data.fieldErrors === "object") {
+          setFieldErrors(data.fieldErrors as Record<string, string[]>);
+        } else {
+          setSubmitError(
+            res.status === 500
+              ? "Server error (500). Check Vercel deployment logs for /api/leads."
+              : `Request failed (${res.status}).`,
+          );
+        }
         setState("error");
         return;
       }
 
       setState("success");
       setSuccessInfo({
-        note: data.emailNote,
-        previewUrl: data.previewUrl,
-        id: data.id,
-        isDev: data.isDev,
+        note: typeof data.emailNote === "string" ? data.emailNote : undefined,
+        previewUrl: typeof data.previewUrl === "string" ? data.previewUrl : undefined,
+        id: typeof data.id === "string" ? data.id : undefined,
+        isDev: Boolean(data.isDev),
       });
       setForm(empty(fixedInterest));
-    } catch {
+    } catch (err) {
+      console.error("[LeadForm] Submit failed:", err);
+      setSubmitError(
+        "Could not reach the server. Disable ad blockers, use the same URL you deployed on Vercel, and check Network → Fetch/XHR for “leads”.",
+      );
       setState("error");
     }
   }
@@ -189,7 +219,7 @@ export function LeadForm({ variant, defaultTrainingTrack = "azure-linux-training
 
       {state === "error" && !Object.keys(fieldErrors).length ? (
         <p className="text-sm text-red-400" role="alert">
-          Something went wrong. Email{" "}
+          {submitError ?? "Something went wrong."} Email{" "}
           <a href={`mailto:${site.contactEmail}`} className="underline">
             {site.contactEmail}
           </a>

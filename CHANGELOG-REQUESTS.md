@@ -18,7 +18,7 @@
 
 ## Email setup (action required)
 
-1. **Web3Forms (easiest):** Register at https://web3forms.com with `tbesg@gmail.com`, add to `.env.local`:
+1. **Web3Forms (easiest):** Register at https://web3forms.com with `tbesh@gmail.com`, add to `.env.local`:
    ```
    WEB3FORMS_ACCESS_KEY=your-key
    ```

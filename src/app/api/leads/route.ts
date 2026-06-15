@@ -3,6 +3,19 @@ import { sendLeadConfirmation, sendLeadNotification } from "@/lib/email";
 import { persistLead, shouldPersistLeadsToDisk } from "@/lib/leads-store";
 import { leadSchema } from "@/lib/validation";
 
+export const runtime = "nodejs";
+
+/** Quick check in browser: open https://yoursite.com/api/leads — should show {"ok":true} */
+export async function GET() {
+  return NextResponse.json({
+    ok: true,
+    service: "leads",
+    persistToDisk: shouldPersistLeadsToDisk(),
+    web3forms: Boolean(process.env.WEB3FORMS_ACCESS_KEY),
+    smtp: Boolean(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS),
+  });
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();

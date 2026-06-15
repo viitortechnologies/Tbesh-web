@@ -4,7 +4,7 @@
 
 | # | Request | Status |
 |---|---------|--------|
-| 1 | Form email to jagtialstories@gmail.com | Done — default inbox + Web3Forms/SMTP/FormSubmit chain |
+| 1 | Form email to tbesh@gmail.com | Done — default inbox + Web3Forms/SMTP/FormSubmit chain |
 | 2 | Separate training vs startup content | Done — `training-content.ts` and `startup-content.ts` |
 | 3 | Hero carousel (one service per slide) | Done — `HeroCarousel` with 3 slides |
 | 4 | Image placeholders | Done — SVG placeholders in `/public/images/` |
@@ -18,7 +18,7 @@
 
 ## Email setup (action required)
 
-1. **Web3Forms (easiest):** Register at https://web3forms.com with `jagtialstories@gmail.com`, add to `.env.local`:
+1. **Web3Forms (easiest):** Register at https://web3forms.com with `tbesg@gmail.com`, add to `.env.local`:
    ```
    WEB3FORMS_ACCESS_KEY=your-key
    ```

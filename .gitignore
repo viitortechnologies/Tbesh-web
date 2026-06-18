@@ -1,3 +1,6 @@
+# Accidental nested clone (same repo checked out inside itself)
+Tbesh-web/
+
 # Logs
 logs
 *.log

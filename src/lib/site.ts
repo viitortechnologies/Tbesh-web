@@ -51,7 +51,7 @@ export const heroSlides = [
     id: "devops",
     eyebrow: "Training",
     title: "DevOps & Cloud Engineering",
-    lead: "Git, CI/CD, containers, and Azure deployments — structured for DevOps and platform engineering careers.",
+    lead: "Hands-on Git, CI/CD, containers, and Azure deployment pipelines — structured for DevOps and platform engineering careers with practical labs.",
     cta: "View DevOps program",
     href: "/training/devops-cloud-engineering",
     image: placeholders.heroDevops,

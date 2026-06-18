@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { ButtonLink } from "@/components/Button";
 import { ImagePlaceholder } from "@/components/ImagePlaceholder";
 import { StaggerGroup } from "@/components/StaggerGroup";
 import { homeServices } from "@/lib/site";
@@ -38,18 +38,12 @@ export function HomeServicesSection() {
               ))}
             </ul>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link
-                href={training.href}
-                className="motion-btn inline-flex rounded-lg bg-[var(--color-accent)] px-5 py-2.5 text-sm font-semibold text-black hover:bg-[var(--color-accent-dim)]"
-              >
+              <ButtonLink href={training.href} size="sm">
                 View programs
-              </Link>
-              <Link
-                href="/contact/training"
-                className="motion-btn inline-flex rounded-lg border border-[var(--color-border)] px-5 py-2.5 text-sm text-white hover:border-[var(--color-accent)]/50"
-              >
+              </ButtonLink>
+              <ButtonLink href="/contact/training" variant="secondary" size="sm">
                 Enquire about training
-              </Link>
+              </ButtonLink>
             </div>
           </div>
           <div className="border-t border-[var(--color-border)] lg:border-t-0 lg:border-l">
@@ -98,18 +92,12 @@ export function HomeServicesSection() {
               ))}
             </ul>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link
-                href={startup.href}
-                className="motion-btn inline-flex rounded-lg border border-[var(--color-border)] px-5 py-2.5 text-sm font-medium text-white hover:border-[var(--color-accent)]/50"
-              >
+              <ButtonLink href={startup.href} variant="secondary" size="sm">
                 View services
-              </Link>
-              <Link
-                href="/contact/startup-support"
-                className="motion-btn inline-flex rounded-lg bg-[var(--color-accent)] px-5 py-2.5 text-sm font-semibold text-black hover:bg-[var(--color-accent-dim)]"
-              >
+              </ButtonLink>
+              <ButtonLink href="/contact/startup-support" size="sm">
                 Enquire about support
-              </Link>
+              </ButtonLink>
             </div>
           </div>
         </div>

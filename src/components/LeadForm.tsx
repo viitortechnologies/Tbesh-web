@@ -1,10 +1,20 @@
 "use client";
 
 import { useState } from "react";
+import { Button } from "@/components/Button";
+import {
+  FORMSUBMIT_AJAX_URL,
+  interestLabels,
+  isFormSubmitSuccess,
+  type FormSubmitResponse,
+} from "@/lib/formsubmit-shared";
 import { site } from "@/lib/site";
-import type { FormVariant, LeadInput, TrainingInterest } from "@/lib/validation";
+import { leadSchema, type FormVariant, type LeadInput, type TrainingInterest } from "@/lib/validation";
 
 type FormState = "idle" | "submitting" | "success" | "error";
+
+const SUCCESS_MESSAGE =
+  "Thank you for contacting us. Our team will get back to you shortly.";
 
 type LeadFormProps = {
   variant: FormVariant;
@@ -27,19 +37,11 @@ export function LeadForm({ variant, defaultTrainingTrack = "azure-linux-training
   const [form, setForm] = useState<LeadInput>(() => empty(fixedInterest));
   const [state, setState] = useState<FormState>("idle");
   const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
-  const [successInfo, setSuccessInfo] = useState<{
-    note?: string;
-    previewUrl?: string;
-    id?: string;
-    isDev?: boolean;
-  } | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setState("submitting");
     setFieldErrors({});
-    setSuccessInfo(null);
     setSubmitError(null);
 
     const payload: LeadInput = {
@@ -47,63 +49,48 @@ export function LeadForm({ variant, defaultTrainingTrack = "azure-linux-training
       interest: variant === "startup-support" ? "startup-support" : form.interest,
     };
 
+    const parsed = leadSchema.safeParse(payload);
+    if (!parsed.success) {
+      setFieldErrors(parsed.error.flatten().fieldErrors);
+      setState("error");
+      return;
+    }
+
+    setState("submitting");
+
     try {
-      const res = await fetch("/api/leads", {
+      const formData = new FormData(e.currentTarget);
+      formData.set("_subject", `[Tbesh] ${interestLabels[parsed.data.interest]} — ${parsed.data.name}`);
+      formData.set("interest", interestLabels[parsed.data.interest]);
+
+      const res = await fetch(FORMSUBMIT_AJAX_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-        cache: "no-store",
+        body: formData,
+        headers: { Accept: "application/json" },
       });
 
-      let data: Record<string, unknown> = {};
-      const contentType = res.headers.get("content-type") ?? "";
-      if (contentType.includes("application/json")) {
-        data = (await res.json()) as Record<string, unknown>;
-      } else {
-        const text = await res.text();
-        console.error("[LeadForm] Non-JSON response", res.status, text.slice(0, 200));
+      const data = (await res.json()) as FormSubmitResponse;
+
+      if (!isFormSubmitSuccess(data)) {
+        console.error("[LeadForm] FormSubmit rejected:", data.message);
         setSubmitError(
-          res.status === 404
-            ? "Form API not found on this domain (404). Confirm the site is deployed on Vercel with the latest code."
-            : `Server returned ${res.status}. The site may not be running the Next.js app on this URL.`,
+          "We couldn't send your enquiry right now. Please email us directly and we'll respond shortly.",
         );
         setState("error");
         return;
       }
 
-      if (!res.ok) {
-        if (data.fieldErrors && typeof data.fieldErrors === "object") {
-          setFieldErrors(data.fieldErrors as Record<string, string[]>);
-        } else {
-          setSubmitError(
-            res.status === 500
-              ? "Server error (500). Check Vercel deployment logs for /api/leads."
-              : `Request failed (${res.status}).`,
-          );
-        }
-        setState("error");
-        return;
-      }
-
       setState("success");
-      setSuccessInfo({
-        note: typeof data.emailNote === "string" ? data.emailNote : undefined,
-        previewUrl: typeof data.previewUrl === "string" ? data.previewUrl : undefined,
-        id: typeof data.id === "string" ? data.id : undefined,
-        isDev: Boolean(data.isDev),
-      });
       setForm(empty(fixedInterest));
-    } catch (err) {
-      console.error("[LeadForm] Submit failed:", err);
-      setSubmitError(
-        "Could not reach the server. Disable ad blockers, use the same URL you deployed on Vercel, and check Network → Fetch/XHR for “leads”.",
-      );
+    } catch {
+      setSubmitError("Could not send your enquiry. Please check your connection and try again.");
       setState("error");
     }
   }
 
   function field(name: keyof LeadInput) {
     return {
+      name,
       value: form[name] ?? "",
       onChange: (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
@@ -118,35 +105,7 @@ export function LeadForm({ variant, defaultTrainingTrack = "azure-linux-training
         className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-6 sm:p-8"
         role="status"
       >
-        <p className="text-lg font-semibold text-white">Thank you — we got your details</p>
-        <p className="mt-2 text-sm text-[var(--color-text-muted)]">
-          We will contact you within one business day.
-          {successInfo?.id ? ` Reference: ${successInfo.id.slice(0, 8)}` : ""}
-        </p>
-        {successInfo?.note ? (
-          <p className="mt-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg)] p-4 text-xs leading-relaxed text-[var(--color-text-muted)]">
-            {successInfo.note}
-          </p>
-        ) : null}
-        {successInfo?.previewUrl ? (
-          <p className="mt-3 text-sm">
-            <span className="text-[var(--color-text-muted)]">Localhost test email: </span>
-            <a
-              href={successInfo.previewUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="break-all text-[var(--color-accent)] underline"
-            >
-              Open preview in browser
-            </a>
-          </p>
-        ) : null}
-        {successInfo?.isDev ? (
-          <p className="mt-3 text-xs text-zinc-500">
-            On localhost, leads are also saved in <code className="text-zinc-400">data/leads.json</code>.
-            For real Gmail, add WEB3FORMS_ACCESS_KEY to .env.local (free at web3forms.com).
-          </p>
-        ) : null}
+        <p className="text-lg font-semibold text-white">{SUCCESS_MESSAGE}</p>
         <p className="mt-4 text-xs text-[var(--color-text-muted)]">
           Or email{" "}
           <a href={`mailto:${site.contactEmail}`} className="text-[var(--color-accent)] underline">
@@ -170,16 +129,12 @@ export function LeadForm({ variant, defaultTrainingTrack = "azure-linux-training
       className="motion-hover-lift space-y-5 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-card)] p-5 sm:p-6 md:p-8"
       noValidate
     >
+      <input type="hidden" name="_captcha" value="false" />
+      <input type="hidden" name="_template" value="table" />
+
       {variant === "training" ? (
         <FormField label="Training track" id="interest" required>
-          <select
-            id="interest"
-            className={inputClass}
-            value={form.interest}
-            onChange={(e) =>
-              setForm((f) => ({ ...f, interest: e.target.value as TrainingInterest }))
-            }
-          >
+          <select id="interest" className={inputClass} {...field("interest")}>
             <option value="azure-linux-training">Azure / Linux Administration</option>
             <option value="devops-cloud-training">DevOps / Cloud Engineering</option>
           </select>
@@ -199,7 +154,7 @@ export function LeadForm({ variant, defaultTrainingTrack = "azure-linux-training
           <input id="mobile" type="tel" autoComplete="tel" required placeholder="+91 ..." className={inputClass} {...field("mobile")} />
         </FormField>
         <FormField label="Company (optional)" id="company">
-          <input id="company" type="text" className={inputClass} {...field("company")} />
+          <input id="company" type="text" autoComplete="organization" className={inputClass} {...field("company")} />
         </FormField>
       </div>
 
@@ -226,13 +181,13 @@ export function LeadForm({ variant, defaultTrainingTrack = "azure-linux-training
         </p>
       ) : null}
 
-      <button
+      <Button
         type="submit"
         disabled={state === "submitting"}
-        className="w-full rounded-lg bg-[var(--color-accent)] py-3.5 text-sm font-semibold text-black hover:bg-[var(--color-accent-dim)] disabled:opacity-60 sm:w-auto sm:min-w-[200px] sm:px-8"
+        className="w-full disabled:opacity-60 sm:w-auto sm:min-w-[200px]"
       >
         {state === "submitting" ? "Sending…" : "Submit"}
-      </button>
+      </Button>
     </form>
   );
 }

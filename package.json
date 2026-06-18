@@ -6,8 +6,9 @@
     "node": ">=18.18.0"
   },
   "scripts": {
-    "dev": "bash scripts/dev-fresh.sh",
-    "dev:fresh": "bash scripts/dev-fresh.sh",
+    "dev": "powershell -ExecutionPolicy Bypass -File scripts/dev-fresh.ps1",
+    "dev:fresh": "powershell -ExecutionPolicy Bypass -File scripts/dev-fresh.ps1",
+    "dev:unix": "bash scripts/dev-fresh.sh",
     "dev:quick": "next dev -H 127.0.0.1 -p 3000",
     "setup:git": "git config core.hooksPath .githooks",
     "push": "git push origin develop",

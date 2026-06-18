@@ -29,7 +29,7 @@ export function ImagePlaceholder({
 
   return (
     <figure
-      className={`motion-hover-lift group relative w-full overflow-hidden rounded-2xl ${
+      className={`relative next-image-fill motion-hover-lift group w-full overflow-hidden rounded-2xl ${
         showOverlay
           ? "border border-dashed border-[var(--color-border)] bg-[var(--color-bg-card)]"
           : "border border-[var(--color-border)] bg-[var(--color-bg-card)]"
@@ -39,7 +39,8 @@ export function ImagePlaceholder({
         src={src}
         alt={alt}
         fill
-        className="object-cover transition group-hover:scale-[1.02]"
+        className="object-cover transition duration-300 group-hover:scale-[1.02]"
+        loading={priority ? undefined : "lazy"}
         sizes={sizes}
         priority={priority}
       />

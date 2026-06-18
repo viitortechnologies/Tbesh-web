@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { isInViewport } from "@/lib/motion";
 
 export type MotionVariant = "rise" | "fade" | "pop";
 
@@ -44,6 +45,11 @@ export function AnimateIn({
       return;
     }
 
+    if (isInViewport(el)) {
+      setVisible(true);
+      if (once) return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -53,7 +59,7 @@ export function AnimateIn({
           setVisible(false);
         }
       },
-      { threshold: 0.08, rootMargin: "0px 0px -48px 0px" },
+      { threshold: 0.01, rootMargin: "0px 0px -24px 0px" },
     );
 
     observer.observe(el);

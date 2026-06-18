@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AnimateIn } from "@/components/AnimateIn";
+import { ButtonLink } from "@/components/Button";
 import { ContentImageRow } from "@/components/ContentImageRow";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { ImagePlaceholder } from "@/components/ImagePlaceholder";
@@ -133,18 +134,10 @@ export default function AboutPage() {
           centered
         />
         <AnimateIn variant="pop" className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-          <Link
-            href="/contact/training"
-            className="motion-btn rounded-lg bg-[var(--color-accent)] px-6 py-3 text-center text-sm font-semibold text-black"
-          >
-            {aboutContact.trainingButton}
-          </Link>
-          <Link
-            href="/contact/startup-support"
-            className="motion-btn rounded-lg border border-[var(--color-border)] px-6 py-3 text-center text-sm text-white"
-          >
+          <ButtonLink href="/contact/training">{aboutContact.trainingButton}</ButtonLink>
+          <ButtonLink href="/contact/startup-support" variant="secondary">
             {aboutContact.startupButton}
-          </Link>
+          </ButtonLink>
         </AnimateIn>
       </PageSection>
     </>

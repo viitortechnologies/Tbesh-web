@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { ButtonLink } from "@/components/Button";
 import { Logo } from "@/components/Logo";
 import { contactNav, nav, site } from "@/lib/site";
 
@@ -27,7 +28,7 @@ export function Header() {
       }`}
       style={{ background: "transparent" }}
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-1.5 sm:gap-4 sm:px-6 sm:py-2 lg:px-8">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:gap-4 sm:px-6 sm:py-3.5 lg:px-8 lg:py-4">
         <Logo />
 
         <nav className="hidden flex-1 items-center justify-center gap-0.5 lg:flex" aria-label="Primary">
@@ -52,16 +53,17 @@ export function Header() {
         </nav>
 
         <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3">
-          <Link
+          <ButtonLink
             href={contactNav.href}
-            className={`motion-btn inline-flex rounded-lg px-3 py-1.5 text-xs font-semibold sm:px-4 sm:py-2 sm:text-sm ${
+            size="sm"
+            className={
               pathname === contactNav.href || pathname.startsWith("/contact/")
-                ? "bg-[var(--color-accent-dim)] text-black"
-                : "bg-[var(--color-accent)] text-black hover:bg-[var(--color-accent-dim)]"
-            }`}
+                ? "bg-[var(--color-accent-dim)] hover:bg-[var(--color-accent-dim)]"
+                : ""
+            }
           >
             {contactNav.label}
-          </Link>
+          </ButtonLink>
           <button
             type="button"
             className="inline-flex flex-col justify-center gap-1.5 rounded-lg border border-[var(--color-border)]/60 bg-transparent p-2 lg:hidden"

@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { AnimateIn } from "@/components/AnimateIn";
 import { Logo } from "@/components/Logo";
 import { nav, site } from "@/lib/site";
 import { trainingPrograms } from "@/lib/training-content";
@@ -11,7 +10,7 @@ export function Footer() {
 
   return (
     <footer className="border-t border-[var(--color-border)] glass-section backdrop-blur-md">
-      <AnimateIn variant="fade" className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div className="sm:col-span-2 lg:col-span-1">
             <Logo size="footer" />
@@ -109,10 +108,21 @@ export function Footer() {
             </ul>
           </div>
         </div>
-        <p className="mt-10 border-t border-[var(--color-border)] pt-6 text-center text-xs text-[var(--color-text-muted)] lg:text-left">
-          © {year} {site.legalName}
-        </p>
-      </AnimateIn>
+        <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-[var(--color-border)] py-6 text-xs text-[var(--color-text-muted)] sm:flex-row">
+          <p>© {year} {site.legalName}</p>
+          <p>
+            Developed by{" "}
+            <a
+              href="https://viitortechnologies.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[var(--color-accent)] hover:underline"
+            >
+              Viitor Technologies
+            </a>
+          </p>
+        </div>
+      </div>
     </footer>
   );
 }

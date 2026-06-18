@@ -1,18 +1,15 @@
 import { NextResponse } from "next/server";
-import { sendLeadConfirmation, sendLeadNotification } from "@/lib/email";
-import { persistLead, shouldPersistLeadsToDisk } from "@/lib/leads-store";
+import { submitLeadViaFormSubmit } from "@/lib/formsubmit";
+import { site } from "@/lib/site";
 import { leadSchema } from "@/lib/validation";
 
 export const runtime = "nodejs";
 
-/** Quick check in browser: open https://yoursite.com/api/leads — should show {"ok":true} */
 export async function GET() {
   return NextResponse.json({
     ok: true,
     service: "leads",
-    persistToDisk: shouldPersistLeadsToDisk(),
-    web3forms: Boolean(process.env.WEB3FORMS_ACCESS_KEY),
-    smtp: Boolean(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS),
+    delivery: "formsubmit",
   });
 }
 
@@ -28,35 +25,17 @@ export async function POST(request: Request) {
       );
     }
 
-    const lead = await persistLead(parsed.data);
-    const savedToFile = shouldPersistLeadsToDisk();
-    const result = await sendLeadNotification(parsed.data);
+    const origin = request.headers.get("origin") ?? site.url.replace(/\/$/, "");
+    const result = await submitLeadViaFormSubmit(parsed.data, origin);
 
-    try {
-      await sendLeadConfirmation(parsed.data);
-    } catch (err) {
-      console.error("[leads] Confirmation failed:", err);
+    if (!result.ok) {
+      return NextResponse.json(
+        { ok: false, error: "formsubmit_failed", message: result.message },
+        { status: 502 },
+      );
     }
 
-    const isDev = process.env.NODE_ENV === "development";
-
-    return NextResponse.json({
-      ok: true,
-      id: lead.id,
-      savedTo: savedToFile ? "data/leads.json" : undefined,
-      emailSent: result.sent,
-      emailMethod: "method" in result ? result.method : undefined,
-      previewUrl: "previewUrl" in result ? result.previewUrl : undefined,
-      emailNote:
-        "devNote" in result && result.devNote
-          ? result.devNote
-          : result.sent
-            ? "Your enquiry was emailed to our team."
-            : isDev
-              ? `Saved locally. Email us at tbesh@gmail.com or add WEB3FORMS_ACCESS_KEY to .env.local.`
-              : `We received your enquiry but email delivery is not configured. Please email tbesh@gmail.com, or set WEB3FORMS_ACCESS_KEY in Vercel Environment Variables.`,
-      isDev,
-    });
+    return NextResponse.json({ ok: true });
   } catch (err) {
     console.error("[leads] Error:", err);
     return NextResponse.json({ ok: false, error: "server_error" }, { status: 500 });

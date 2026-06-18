@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { isInViewport } from "@/lib/motion";
 
 type StaggerGroupProps = {
   children: ReactNode;
@@ -22,6 +23,11 @@ export function StaggerGroup({ children, className = "", stepMs = 75 }: StaggerG
       return;
     }
 
+    if (isInViewport(el, 40)) {
+      setVisible(true);
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -29,7 +35,7 @@ export function StaggerGroup({ children, className = "", stepMs = 75 }: StaggerG
           observer.disconnect();
         }
       },
-      { threshold: 0.06, rootMargin: "0px 0px -40px 0px" },
+      { threshold: 0.01, rootMargin: "0px 0px -24px 0px" },
     );
 
     observer.observe(el);

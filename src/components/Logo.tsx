@@ -6,7 +6,7 @@ type LogoSize = "header" | "footer";
 
 const sizeClasses: Record<LogoSize, string> = {
   header: "h-12 w-auto sm:h-14 md:h-16",
-  footer: "h-28 w-auto sm:h-32 md:h-40",
+  footer: "h-14 w-auto sm:h-16 md:h-20",
 };
 
 const dimensions: Record<LogoSize, { width: number; height: number }> = {

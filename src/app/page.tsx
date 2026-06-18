@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { AnimateIn } from "@/components/AnimateIn";
+import { ButtonLink } from "@/components/Button";
 import { HeroCarousel } from "@/components/HeroCarousel";
 import { HomeServicesSection } from "@/components/HomeServicesSection";
 import { ContentImageRow } from "@/components/ContentImageRow";
@@ -208,18 +209,10 @@ export default function HomePage() {
             {homeCta.description}
           </p>
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-            <Link
-              href="/contact/training"
-              className="motion-btn btn-join rounded-full px-8 py-3 text-sm font-bold"
-            >
-              {homeCta.trainingButton}
-            </Link>
-            <Link
-              href="/contact/startup-support"
-              className="motion-btn rounded-lg border border-[var(--color-border)] px-6 py-3 text-sm text-white hover:bg-white/5"
-            >
+            <ButtonLink href="/contact/training">{homeCta.trainingButton}</ButtonLink>
+            <ButtonLink href="/contact/startup-support" variant="secondary">
               {homeCta.startupButton}
-            </Link>
+            </ButtonLink>
           </div>
         </AnimateIn>
       </PageSection>

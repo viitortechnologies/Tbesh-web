@@ -76,7 +76,7 @@
     inset: 0;
     z-index: -2;
     background: var(--site-gradient);
-    background-attachment: fixed;
+    background-attachment: scroll;
   }
 
   body::after {
@@ -97,7 +97,16 @@
   img,
   video {
     max-width: 100%;
+  }
+
+  img {
     height: auto;
+  }
+
+  .next-image-fill img {
+    height: 100% !important;
+    width: 100%;
+    max-width: none;
   }
 
   a {

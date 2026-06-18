@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
+import { ButtonLink } from "@/components/Button";
 import { ImagePlaceholder } from "@/components/ImagePlaceholder";
 import { heroSlides, site } from "@/lib/site";
 
@@ -56,19 +57,12 @@ export function HeroCarousel() {
                 ))}
               </ul>
             ) : null}
-            <p className="motion-hero-in-delay-2 mt-4 max-w-xl text-base leading-relaxed text-[var(--color-text-muted)] sm:text-lg">
+            <p className="motion-hero-in-delay-2 mt-4 min-h-[4.5rem] max-w-xl text-base leading-relaxed text-[var(--color-text-muted)] sm:min-h-[5.25rem] sm:text-lg">
               {slide.lead}
             </p>
-            <Link
-              href={slide.href}
-              className={`motion-btn motion-hero-in-delay-2 mt-8 inline-flex rounded-full px-8 py-3.5 text-sm font-bold ${
-                isPoster
-                  ? "btn-join"
-                  : "rounded-lg bg-[var(--color-accent)] text-black hover:bg-[var(--color-accent-dim)]"
-              }`}
-            >
+            <ButtonLink href={slide.href} className="motion-hero-in-delay-2 mt-8">
               {slide.cta}
-            </Link>
+            </ButtonLink>
             {isPoster ? (
               <div className="motion-hero-in-delay-2 mt-6 flex flex-wrap items-center gap-2">
                 <span className="badge-career text-[0.6rem]">T-BESH:</span>

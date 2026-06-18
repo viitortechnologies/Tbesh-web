@@ -41,6 +41,10 @@ export const metadata: Metadata = {
     description: site.description,
   },
   robots: { index: true, follow: true },
+  icons: {
+    icon: [{ url: "/tbesh logo.jpg", type: "image/jpeg" }],
+    apple: [{ url: "/tbesh logo.jpg", type: "image/jpeg" }],
+  },
 };
 
 export default function RootLayout({

@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { AnimateIn } from "@/components/AnimateIn";
+import { ButtonLink } from "@/components/Button";
 
 type SignupStripProps = {
   service: "training" | "startup";
@@ -36,12 +36,9 @@ export function SignupStrip({ service }: SignupStripProps) {
         </p>
         <h2 className="mt-2 text-2xl font-bold text-white sm:text-3xl">{c.title}</h2>
         <p className="mt-3 text-sm text-[var(--color-text-muted)]">{c.description}</p>
-        <Link
-          href={c.href}
-          className="motion-btn mt-8 inline-flex rounded-lg bg-[var(--color-accent)] px-8 py-3.5 text-sm font-semibold text-black hover:bg-[var(--color-accent-dim)]"
-        >
+        <ButtonLink href={c.href} className="mt-8">
           {c.button}
-        </Link>
+        </ButtonLink>
       </AnimateIn>
     </section>
   );

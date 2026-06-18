@@ -1,0 +1,9 @@
+{
+  "framework": "nextjs",
+  "git": {
+    "deploymentEnabled": {
+      "develop": true,
+      "main": true
+    }
+  }
+}

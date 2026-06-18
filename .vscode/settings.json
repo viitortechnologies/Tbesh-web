@@ -1,4 +1,7 @@
 {
+  "git.postCommitCommand": "push",
+  "git.confirmSync": false,
+  "git.enableSmartCommit": true,
   "terminal.integrated.env.osx": {
     "NVM_DIR": "${env:HOME}/.nvm"
   },

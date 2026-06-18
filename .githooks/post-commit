@@ -1,0 +1,11 @@
+#!/bin/sh
+# Auto-push after every local commit so GitHub and Vercel stay in sync.
+branch="$(git rev-parse --abbrev-ref HEAD)"
+remote="$(git config branch."$branch".remote 2>/dev/null)"
+remote="${remote:-origin}"
+
+if git rev-parse --verify "@{u}" >/dev/null 2>&1; then
+  git push "$remote" "$branch"
+else
+  git push -u "$remote" "$branch"
+fi

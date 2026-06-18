@@ -23,7 +23,7 @@ export function PageSection({
   return (
     <section
       id={id}
-      className={`py-14 sm:py-16 lg:py-20 ${alt ? "bg-[var(--color-bg-elevated)] border-y border-[var(--color-border)]" : ""} ${className}`}
+      className={`py-14 sm:py-16 lg:py-20 ${alt ? "glass-section border-y border-[var(--color-border)]" : ""} ${className}`}
     >
       {animate ? <AnimateIn variant="rise">{inner}</AnimateIn> : inner}
     </section>

@@ -17,7 +17,7 @@ export function SectionHeading({
 }: SectionHeadingProps) {
   return (
     <AnimateIn variant="fade" className={centered ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}>
-      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent)]">
+      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-highlight)]">
         {eyebrow}
       </p>
       <h2

@@ -7,6 +7,7 @@ export function OrganizationJsonLd() {
     name: site.legalName,
     url: site.url,
     email: site.contactEmail,
+    telephone: site.phone,
     description: site.description,
     areaServed: "IN",
     knowsAbout: [

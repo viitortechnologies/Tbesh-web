@@ -50,7 +50,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${dmSans.variable} ${syne.variable}`}>
-      <body className={`${dmSans.className} min-h-screen flex flex-col bg-[var(--color-bg)] text-[var(--color-text)] antialiased`}>
+      <body className={`${dmSans.className} min-h-screen flex flex-col text-[var(--color-text)] antialiased`}>
         <OrganizationJsonLd />
         <a
           href="#main"

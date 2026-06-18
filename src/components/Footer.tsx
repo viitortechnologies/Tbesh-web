@@ -10,7 +10,7 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-[var(--color-border)] bg-[var(--color-bg-elevated)]">
+    <footer className="border-t border-[var(--color-border)] glass-section backdrop-blur-md">
       <AnimateIn variant="fade" className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div className="sm:col-span-2 lg:col-span-1">
@@ -96,6 +96,14 @@ export function Footer() {
                   className="text-sm text-[var(--color-text-muted)] hover:text-white"
                 >
                   {site.contactEmail}
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`tel:${site.phone.replace(/\s/g, "")}`}
+                  className="text-sm text-[var(--color-text-muted)] hover:text-white"
+                >
+                  {site.phone}
                 </a>
               </li>
             </ul>

@@ -22,7 +22,7 @@ export function Header() {
     <header
       className={`sticky top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "border-b border-[var(--color-border)]/40 backdrop-blur-sm"
+          ? "border-b border-[var(--color-border)]/40 glass-section backdrop-blur-md"
           : "border-b border-transparent bg-transparent"
       }`}
       style={{ background: "transparent" }}

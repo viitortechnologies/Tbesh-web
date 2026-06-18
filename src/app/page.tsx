@@ -18,6 +18,7 @@ import {
   homeTrainingPreview,
   homeCta,
   homeWhy,
+  trainingOutlines,
 } from "@/lib/site";
 import { placeholders } from "@/lib/placeholders";
 
@@ -46,6 +47,24 @@ export default function HomePage() {
             ))}
           </ul>
         </ContentImageRow>
+      </PageSection>
+
+      <PageSection alt id="training-outlines">
+        <SectionHeading
+          eyebrow={trainingOutlines.eyebrow}
+          title={trainingOutlines.title}
+          centered
+        />
+        <StaggerGroup className="mx-auto mt-10 grid max-w-2xl gap-3">
+          {trainingOutlines.items.map((item) => (
+            <div key={item} className="outline-pill motion-hover-lift">
+              <span className="outline-pill-check" aria-hidden>
+                ✓
+              </span>
+              {item}
+            </div>
+          ))}
+        </StaggerGroup>
       </PageSection>
 
       <PageSection alt id="services">
@@ -191,7 +210,7 @@ export default function HomePage() {
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
             <Link
               href="/contact/training"
-              className="motion-btn rounded-lg bg-[var(--color-accent)] px-6 py-3 text-sm font-semibold text-black"
+              className="motion-btn btn-join rounded-full px-8 py-3 text-sm font-bold"
             >
               {homeCta.trainingButton}
             </Link>

@@ -5,13 +5,13 @@ export const DEFAULT_LEAD_EMAIL = "tbesh@gmail.com";
 export const site = {
   name: "Tbesh",
   legalName: "Tbesh Enterprise",
-  tagline: "Azure & DevOps training and startup cloud operations.",
+  tagline: "Linux System Administrator · Azure Administrator · Azure DevOps training.",
   description:
-    "Tbesh Enterprise delivers Azure Linux and DevOps training plus managed infrastructure support for growing startups.",
+    "Tbesh Enterprise delivers Linux System Administrator, Azure Administrator, and Azure DevOps training — plus managed cloud infrastructure support for growing startups.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://tbesh.com",
   contactEmail: process.env.CONTACT_EMAIL ?? DEFAULT_LEAD_EMAIL,
   leadNotifyEmail: process.env.LEAD_NOTIFY_EMAIL ?? DEFAULT_LEAD_EMAIL,
-  phone: "+91 98765 43210",
+  phone: "+1 (469) 592-1455",
   location: "Online batches & remote support",
 } as const;
 
@@ -70,6 +70,17 @@ export const heroSlides = [
     imageLabel: "Cloud infrastructure support hero",
   },
 ] as const;
+
+export const trainingOutlines = {
+  eyebrow: "Training outlines",
+  title: "Everything you need to launch your cloud career",
+  items: [
+    "Career Guidance",
+    "Hands-on Learning",
+    "Flexibility For Your Schedule",
+    "Networking Opportunities",
+  ],
+} as const;
 
 export const homeIntro = {
   eyebrow: "Tbesh Enterprise",
@@ -196,10 +207,10 @@ export const homeWhy = {
 } as const;
 
 export const homeCta = {
-  title: "Take the next step",
+  title: "Ready to start your cloud career?",
   description:
-    "Interested in training or infrastructure support? Reach out and we will connect you with the right specialist within one business day.",
-  trainingButton: "Enquire about training",
+    "Join our next Linux System Administrator batch — Azure Administrator and Azure DevOps tracks available. Reach out and we will connect you within one business day.",
+  trainingButton: "Join Now",
   startupButton: "Enquire about support",
 } as const;
 

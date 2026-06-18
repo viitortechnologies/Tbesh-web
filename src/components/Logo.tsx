@@ -5,13 +5,13 @@ import { site } from "@/lib/site";
 type LogoSize = "header" | "footer";
 
 const sizeClasses: Record<LogoSize, string> = {
-  header: "h-16 w-auto min-h-[4rem] sm:h-20 sm:min-h-[5rem] md:h-24 md:min-h-[6rem]",
-  footer: "h-14 w-auto sm:h-16 md:h-20",
+  header: "h-32 w-auto min-h-[8rem] sm:h-40 sm:min-h-[10rem] md:h-48 md:min-h-[12rem]",
+  footer: "h-28 w-auto sm:h-32 md:h-40",
 };
 
 const dimensions: Record<LogoSize, { width: number; height: number }> = {
-  header: { width: 400, height: 120 },
-  footer: { width: 360, height: 108 },
+  header: { width: 800, height: 240 },
+  footer: { width: 720, height: 216 },
 };
 
 type LogoProps = {

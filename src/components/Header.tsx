@@ -27,7 +27,7 @@ export function Header() {
       }`}
       style={{ background: "transparent" }}
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:gap-4 sm:px-6 sm:py-4 lg:px-8">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-1.5 sm:gap-4 sm:px-6 sm:py-2 lg:px-8">
         <Logo />
 
         <nav className="hidden flex-1 items-center justify-center gap-0.5 lg:flex" aria-label="Primary">
@@ -39,7 +39,7 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`rounded-lg px-2.5 py-2 text-sm font-medium transition-colors xl:px-3 ${
+                className={`rounded-lg px-2.5 py-1.5 text-sm font-medium transition-colors xl:px-3 ${
                   active
                     ? "bg-white/10 text-white"
                     : "text-[var(--color-text-muted)] hover:bg-white/5 hover:text-white"
@@ -54,7 +54,7 @@ export function Header() {
         <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3">
           <Link
             href={contactNav.href}
-            className={`motion-btn inline-flex rounded-lg px-3 py-2 text-xs font-semibold sm:px-4 sm:py-2.5 sm:text-sm ${
+            className={`motion-btn inline-flex rounded-lg px-3 py-1.5 text-xs font-semibold sm:px-4 sm:py-2 sm:text-sm ${
               pathname === contactNav.href || pathname.startsWith("/contact/")
                 ? "bg-[var(--color-accent-dim)] text-black"
                 : "bg-[var(--color-accent)] text-black hover:bg-[var(--color-accent-dim)]"
@@ -64,7 +64,7 @@ export function Header() {
           </Link>
           <button
             type="button"
-            className="inline-flex flex-col justify-center gap-1.5 rounded-lg border border-[var(--color-border)]/60 bg-transparent p-2.5 lg:hidden"
+            className="inline-flex flex-col justify-center gap-1.5 rounded-lg border border-[var(--color-border)]/60 bg-transparent p-2 lg:hidden"
             aria-expanded={open}
             aria-controls="mobile-nav"
             onClick={() => setOpen((v) => !v)}

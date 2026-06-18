@@ -5,7 +5,7 @@ import { site } from "@/lib/site";
 type LogoSize = "header" | "footer";
 
 const sizeClasses: Record<LogoSize, string> = {
-  header: "h-32 w-auto min-h-[8rem] sm:h-40 sm:min-h-[10rem] md:h-48 md:min-h-[12rem]",
+  header: "h-12 w-auto sm:h-14 md:h-16",
   footer: "h-28 w-auto sm:h-32 md:h-40",
 };
 
